@@ -9,7 +9,9 @@
                     <div class="title">电商后台管理系统</div>
                 </el-col>
                 <el-col :span="1">
-                    <div class="logout"><a href="#">退出</a></div>
+                    <div class="logout">
+                        <a href="#" @click.prevent='handleLogout'>退出</a>
+                    </div>
                 </el-col>
             </el-row>
         </el-header>
@@ -91,7 +93,20 @@
 
 <script>
 export default {
-
+    beforeCreate() {
+        var token = sessionStorage.getItem('token');
+        if(!token){
+            this.$message.warning('请先登录');
+            this.$router.push('/login');
+        }        
+    },
+    methods: {
+        handleLogout() {
+            this.$message.success('退出成功');
+            sessionStorage.clear();
+            this.$router.push('/login');
+        }
+    }
 };
 </script>
 
@@ -124,6 +139,5 @@ export default {
 
 .main {
   background-color: #e9eef3;
-  height: 100%;
 }
 </style>
