@@ -32,12 +32,12 @@ export default {
         };
     },
     methods: {
-        handleLogin(){
-            axios
-                .post('http://localhost:8888/api/private/v1/login', this.formData)
-                .then((response) => {
-                    var status = response.data.meta.status;
-                    var msg = response.data.meta.msg;
+        async handleLogin(){
+            var response = await axios.post
+                ('http://localhost:8888/api/private/v1/login', this.formData)
+                    // var status = response.data.meta.status;
+                    // var msg = response.data.meta.msg;
+                    var {data: {meta: {status, msg}}} = response;
                     if(status === 200){
                         this.$message.success(msg);
                         var token = response.data.data.token;
@@ -45,10 +45,6 @@ export default {
                     }else{
                         this.$message.error(msg);
                     }
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
         }
     }
 };
